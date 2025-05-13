@@ -4,7 +4,8 @@ import getpass
 
 ROUTER_IP = "192.168.0.254"
 USERNAME = "admin"
-VPN_INTERFACE = "OpenVPN0"  # Укажи точное имя интерфейса VPN
+VPN_INTERFACE = "OpenVPN0"
+
 
 def ssh_exec(command, password):
     ssh = paramiko.SSHClient()
@@ -16,6 +17,7 @@ def ssh_exec(command, password):
         return output
     finally:
         ssh.close()
+
 
 def get_interface_status(interface, password):
     result = ssh_exec(f"show interface {interface}", password)
@@ -29,6 +31,7 @@ def get_interface_status(interface, password):
     else:
         print(f"[!] Не удалось определить статус интерфейса {interface}.")
         return None, None
+
 
 def toggle_interface(interface, password):
     link, state = get_interface_status(interface, password)
@@ -52,6 +55,7 @@ def toggle_interface(interface, password):
         print("✅ Готово.")
     else:
         print("❎ Операция отменена.")
+
 
 if __name__ == "__main__":
     print(f"🔐 Подключение к {ROUTER_IP} как {USERNAME}")
